@@ -1,0 +1,22 @@
+jwt:
+  secret: 5F5B1FCF8445E721E543CFFAE38E434324223123123123dsr23123
+  lifetime: 1d
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/VoxVista
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+server:
+  error:
+    include-message: always
+    include-stacktrace: never
