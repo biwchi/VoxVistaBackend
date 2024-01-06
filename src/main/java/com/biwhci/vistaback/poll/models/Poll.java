@@ -1,37 +1,57 @@
 package com.biwhci.vistaback.poll.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Poll {
   @Id
   @GeneratedValue
   @Column(name = "poll_id")
-  private Integer id;
+  private Integer pollId;
 
   @Column(nullable = false)
   private String title;
   @Column(columnDefinition = "text", nullable = false)
   private String description;
 
-  @Column(nullable = false, columnDefinition = "boolean default false")
-  private boolean isMultiple;
-  @Column(nullable = false, columnDefinition = "boolean default false")
-  private boolean isAnonymous;
+  @Column(nullable = false)
+  private Boolean multiple;
+  @Column(nullable = false)
+  private Boolean anonymous;
 
-  private Date startDate;
-  private Date endDate;
+  private ZonedDateTime startDate;
+  private ZonedDateTime endDate;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @CreationTimestamp
+  private ZonedDateTime createdAt;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "poll_id")
-  private List<PollOption> options;
+  private List<PollOption> options = new ArrayList<>();
+
+  public Poll(String title,
+              String description,
+              boolean isMultiple,
+              boolean isAnonymous,
+              ZonedDateTime startDate,
+              ZonedDateTime endDate,
+              List<PollOption> options
+  ) {
+    this.title = title;
+    this.description = description;
+    this.multiple = isMultiple;
+    this.anonymous = isAnonymous;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.options = options;
+  }
 }

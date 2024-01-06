@@ -1,16 +1,18 @@
 package com.biwhci.vistaback.poll.dtos;
 
+import com.biwhci.vistaback.user.dtos.UserDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PollOptionDto {
-  private final Integer id;
-  private final String label;
-  private final Integer votes;
-
-  public PollOptionDto(Integer id, String label, Integer votes) {
-    this.id = id;
-    this.label = label;
-    this.votes = votes;
-  }
+  private Integer id;
+  private String label;
+  private Integer votes;
 }

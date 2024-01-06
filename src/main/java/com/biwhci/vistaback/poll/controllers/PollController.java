@@ -3,6 +3,7 @@ package com.biwhci.vistaback.poll.controllers;
 import com.biwhci.vistaback.poll.dtos.PollCreateDto;
 import com.biwhci.vistaback.poll.dtos.PollDto;
 import com.biwhci.vistaback.poll.services.PollService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,13 @@ public class PollController {
     return pollService.findAllPolls();
   }
 
+  @GetMapping("/{pollId}")
+  public PollDto findPollById(@PathVariable Integer pollId) {
+    return pollService.findPollById(pollId);
+  }
+
   @PostMapping
-  public void createPoll(@RequestBody PollCreateDto pollCreateDto) {
+  public void createPoll(@Valid @RequestBody PollCreateDto pollCreateDto) {
     pollService.createPoll(pollCreateDto);
   }
 }

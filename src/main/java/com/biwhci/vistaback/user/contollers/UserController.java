@@ -1,6 +1,7 @@
 package com.biwhci.vistaback.user.contollers;
 
-import com.biwhci.vistaback.user.dots.UserDto;
+import com.biwhci.vistaback.user.dtos.UserDto;
+import com.biwhci.vistaback.user.models.User;
 import com.biwhci.vistaback.user.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

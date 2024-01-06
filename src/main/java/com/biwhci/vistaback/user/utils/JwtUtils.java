@@ -36,8 +36,10 @@ public class JwtUtils {
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
                 );
 
+        claims.put("id", user.getUserId());
         claims.put("email", user.getEmail());
-        claims.put("username", user.getUsername());
+        claims.put("nickname", user.getNickname());
+        claims.put("roles", user.getAuthorities());
 
         Date issuedAt = new Date();
         Date expiresAt = new Date(issuedAt.getTime() + jwtLifetime.toMillis());
