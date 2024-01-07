@@ -1,7 +1,7 @@
 package com.biwhci.vistaback.user.utils;
 
-import com.biwhci.vistaback.user.models.User;
-import com.biwhci.vistaback.user.services.UserService;
+import com.biwhci.vistaback.user.models.AppUser;
+import com.biwhci.vistaback.user.services.AppUserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -26,12 +26,12 @@ public class JwtUtils {
     @Value("${jwt.lifetime}")
     private Duration jwtLifetime;
 
-    private final UserService userService;
+    private final AppUserService appUserService;
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
-        User user = userService.findByEmail(userDetails.getUsername())
+        AppUser user = appUserService.findByEmail(userDetails.getUsername())
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
                 );

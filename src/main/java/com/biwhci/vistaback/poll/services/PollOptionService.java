@@ -5,12 +5,10 @@ import com.biwhci.vistaback.poll.models.Poll;
 import com.biwhci.vistaback.poll.models.PollOption;
 import com.biwhci.vistaback.poll.repositries.PollOptionRepository;
 import com.biwhci.vistaback.poll.repositries.PollRepository;
-import com.biwhci.vistaback.user.dtos.UserDto;
-import com.biwhci.vistaback.user.models.User;
-import com.biwhci.vistaback.user.services.UserService;
+import com.biwhci.vistaback.user.dtos.AppUserDto;
+import com.biwhci.vistaback.user.models.AppUser;
+import com.biwhci.vistaback.user.services.AppUserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,11 +23,11 @@ import java.util.Optional;
 public class PollOptionService {
   private final PollOptionRepository pollOptionRepository;
   private final PollRepository pollRepository;
-  private final UserService userService;
+  private final AppUserService appUserService;
 
   public void voteForOption(PollOptionVoteDto pollOptionVoteDto) {
-    UserDto principal = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    Optional<User> user = userService.findByEmail(principal.getEmail());
+    AppUserDto principal = (AppUserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Optional<AppUser> user = appUserService.findByEmail(principal.getEmail());
 
     Poll poll = pollRepository.findById(pollOptionVoteDto.getPollId()).orElseThrow(
         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, pollOptionVoteDto.getPollId() + "Such poll does not exist")

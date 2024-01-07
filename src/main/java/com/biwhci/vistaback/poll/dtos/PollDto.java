@@ -1,14 +1,12 @@
 package com.biwhci.vistaback.poll.dtos;
 
 import com.biwhci.vistaback.poll.models.Poll;
-import com.biwhci.vistaback.user.dtos.UserDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor

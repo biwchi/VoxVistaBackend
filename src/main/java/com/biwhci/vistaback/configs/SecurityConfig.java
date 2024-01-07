@@ -1,6 +1,6 @@
 package com.biwhci.vistaback.configs;
 
-import com.biwhci.vistaback.user.services.UserService;
+import com.biwhci.vistaback.user.services.AppUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -23,12 +23,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-  private final UserService userService;
+  private final AppUserService appUserService;
   private final JwtRequestFilter jwtRequestFilter;
 
-  public SecurityConfig(@Lazy UserService userService, @Lazy JwtRequestFilter jwtRequestFilter) {
+  public SecurityConfig(@Lazy AppUserService appUserService, @Lazy JwtRequestFilter jwtRequestFilter) {
     this.jwtRequestFilter = jwtRequestFilter;
-    this.userService = userService;
+    this.appUserService = appUserService;
   }
 
   @Bean
@@ -36,7 +36,9 @@ public class SecurityConfig {
     http
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/poll").authenticated()
-            .requestMatchers("/poll/option").authenticated()
+            .requestMatchers(HttpMethod.POST,"/poll/option").authenticated()
+            .requestMatchers(HttpMethod.POST,"/poll/comment").authenticated()
+            .requestMatchers(HttpMethod.DELETE,"/poll/comment/**").authenticated()
             .anyRequest().permitAll()
         )
         .sessionManagement((session) -> session
@@ -55,7 +57,7 @@ public class SecurityConfig {
   public DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
     authProvider.setPasswordEncoder(bCryptPasswordEncoder());
-    authProvider.setUserDetailsService(userService);
+    authProvider.setUserDetailsService(appUserService);
 
     return authProvider;
   }

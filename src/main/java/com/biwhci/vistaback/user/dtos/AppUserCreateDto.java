@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserCreateDto {
+public class AppUserCreateDto {
 
   @NotBlank(message = "Nickname cannot be empty")
   @Size(min = 3, message = "Nickname must be at least 3 characters")

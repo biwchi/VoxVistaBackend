@@ -1,17 +1,13 @@
 package com.biwhci.vistaback.poll.models;
 
-import com.biwhci.vistaback.user.models.User;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.biwhci.vistaback.user.models.AppUser;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -41,7 +37,7 @@ public class PollOption {
       }
   )
   @JsonIgnoreProperties("voted")
-  private List<User> voters;
+  private List<AppUser> voters;
 
   public PollOption(String label) {
     this.label = label;

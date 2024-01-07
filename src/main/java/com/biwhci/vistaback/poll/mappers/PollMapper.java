@@ -4,8 +4,9 @@ import com.biwhci.vistaback.poll.dtos.PollCreateDto;
 import com.biwhci.vistaback.poll.dtos.PollDto;
 import com.biwhci.vistaback.poll.models.Poll;
 import com.biwhci.vistaback.poll.models.PollOption;
-import com.biwhci.vistaback.user.dtos.UserDto;
-import com.biwhci.vistaback.user.services.UserService;
+import com.biwhci.vistaback.user.dtos.AppUserDto;
+import com.biwhci.vistaback.user.models.AppUser;
+import com.biwhci.vistaback.user.services.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +17,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 @RequiredArgsConstructor
 public class PollMapper {
-  private final UserService userService;
+  private final AppUserService appUserService;
 
   public PollDto toDto(Poll poll) {
-    Optional<UserDto> user = userService.getCurrentUser();
+    Optional<AppUser> user = appUserService.getCurrentUser();
     AtomicBoolean isVoted = new AtomicBoolean(false);
     List<PollOption> options = poll.getOptions();
 
@@ -28,7 +29,7 @@ public class PollMapper {
         return;
       }
 
-      if (userService.findUserByUserIdAndVotedPollOptionId(user.get().getId(), option.getPollOptionId()).isPresent()) {
+      if (appUserService.findUserByUserIdAndVotedPollOptionId(user.get().getUserId(), option.getPollOptionId()).isPresent()) {
         isVoted.set(true);
       }
     });

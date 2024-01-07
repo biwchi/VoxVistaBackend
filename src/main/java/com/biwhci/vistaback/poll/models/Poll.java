@@ -38,6 +38,10 @@ public class Poll {
   @JoinColumn(name = "poll_id")
   private List<PollOption> options = new ArrayList<>();
 
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "poll_id")
+  private List<PollComment> comments = new ArrayList<>();
+
   public Poll(String title,
               String description,
               boolean isMultiple,

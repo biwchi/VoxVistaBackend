@@ -1,9 +1,7 @@
 package com.biwhci.vistaback.user.models;
 
 import com.biwhci.vistaback.poll.models.PollOption;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,13 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "_user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class AppUser implements UserDetails {
   @Id
   @GeneratedValue
   @Column(name = "user_id")
@@ -45,6 +42,12 @@ public class User implements UserDetails {
   )
   @JsonIgnoreProperties("voters")
   private List<PollOption> voted;
+
+  public AppUser(String nickname, String email, String password) {
+    this.nickname = nickname;
+    this.email = email;
+    this.password = password;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
