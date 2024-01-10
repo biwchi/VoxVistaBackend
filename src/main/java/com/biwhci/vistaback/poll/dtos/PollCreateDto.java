@@ -23,8 +23,8 @@ public class PollCreateDto {
   @NotBlank
   private  String description;
 
-  private Boolean multiple;
-  private Boolean anonymous;
+  private Boolean multiple = false;
+  private Boolean anonymous = false;
 
   @Future
   private ZonedDateTime startDate = null;
