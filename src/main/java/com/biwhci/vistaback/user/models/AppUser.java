@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,7 +28,7 @@ public class AppUser implements UserDetails {
   private String email;
   private String password;
 
-  @ManyToMany(cascade = CascadeType.MERGE)
+  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   @JoinTable(
       name = "poll_option_voter",
       joinColumns = {
@@ -40,7 +41,7 @@ public class AppUser implements UserDetails {
           @UniqueConstraint(columnNames = {"user_id", "poll_option_id"})
       }
   )
-  @JsonIgnoreProperties("voters")
+  @ToString.Exclude
   private List<PollOption> voted;
 
   public AppUser(String nickname, String email, String password) {
