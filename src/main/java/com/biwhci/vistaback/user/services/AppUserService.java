@@ -20,7 +20,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AppUserService implements UserDetailsService {
   private final AppUserRepository appUserRepository;
-  private final PasswordEncoder passwordEncoder;
   private final AppUserMapper appUserMapper;
 
   public Optional<AppUser> getCurrentUser() {
@@ -46,24 +45,19 @@ public class AppUserService implements UserDetailsService {
   }
 
   public List<AppUserDto> findAllUsers() {
-    return appUserRepository.findAll().stream().map(AppUserDto::new).toList();
+    return appUserRepository.findAll().stream().map(appUserMapper::toDto).toList();
+  }
+
+  public List<AppUserDto> findUsersByVotedPollOptionId(Integer pollOptionId) {
+    return appUserRepository.findByVotedPollOptionId(pollOptionId).stream().map(appUserMapper::toDto).toList();
   }
 
   public Optional<AppUser> findByEmail(String email) {
     return appUserRepository.findByEmail(email);
   }
 
-  public Optional<AppUser> findUserByUserIdAndVotedPollOptionId(Integer userId, Integer pollOptionId) {
-    return appUserRepository.findUserByUserIdAndVotedPollOptionId(userId, pollOptionId);
-  }
-
   public void createUser(AppUserCreateDto newUser) {
-    AppUser user = new AppUser();
-
-    user.setNickname(newUser.getNickname());
-    user.setEmail(newUser.getEmail());
-    user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
+    AppUser user = appUserMapper.create(newUser);
     appUserRepository.save(user);
   }
 }

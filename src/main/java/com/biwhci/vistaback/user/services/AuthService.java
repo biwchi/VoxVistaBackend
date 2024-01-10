@@ -1,5 +1,6 @@
 package com.biwhci.vistaback.user.services;
 
+import com.biwhci.vistaback.exceptions.UnauthorizedException;
 import com.biwhci.vistaback.user.dtos.TokenResponse;
 import com.biwhci.vistaback.user.dtos.AppUserCreateDto;
 import com.biwhci.vistaback.user.dtos.AppUserDto;
@@ -61,7 +62,7 @@ public class AuthService {
     Optional<AppUser> user = appUserService.getCurrentUser();
 
     if(user.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException();
     }
 
     return appUserMapper.toDto(user.get());
