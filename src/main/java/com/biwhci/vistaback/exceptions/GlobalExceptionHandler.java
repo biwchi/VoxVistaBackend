@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     ex.getFieldErrors().forEach(err -> error.put(err.getField(), err.getDefaultMessage()));
 
     result.put("status", ex.getStatusCode().value());
-    result.put("error", error);
+    result.put("message", error);
 
     return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
   }
