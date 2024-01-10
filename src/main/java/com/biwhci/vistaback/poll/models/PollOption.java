@@ -23,7 +23,7 @@ public class PollOption {
   @Formula(value = "(SELECT COUNT(*) FROM poll_option_voter pv WHERE pv.poll_option_id = poll_option_id)")
   private Integer votes;
 
-  @ManyToMany(cascade = CascadeType.MERGE)
+  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   @JoinTable(
       name = "poll_option_voter",
       joinColumns = {
