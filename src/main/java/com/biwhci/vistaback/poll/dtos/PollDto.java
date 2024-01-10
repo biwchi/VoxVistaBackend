@@ -1,7 +1,8 @@
 package com.biwhci.vistaback.poll.dtos;
 
 import com.biwhci.vistaback.poll.models.Poll;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.biwhci.vistaback.user.dtos.AppUserDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,28 +12,32 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PollDto {
-  @JsonProperty(index = 0)
   private Integer id;
-  @JsonProperty(index = 1)
   private String title;
-  @JsonProperty(index = 2)
   private String description;
-  @JsonProperty(index = 3)
   private Boolean multiple;
-  @JsonProperty(index = 4)
   private Boolean anonymous;
-  @JsonProperty(index = 5)
   private Boolean voted;
-  @JsonProperty(index = 6)
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   private ZonedDateTime startDate;
-  @JsonProperty(index = 7)
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   private ZonedDateTime endDate;
-  @JsonProperty(index = 8)
+  @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
   private ZonedDateTime createdAt;
-  @JsonProperty(index = 9)
+  private AppUserDto createdBy;
   private List<PollOptionDto> options;
 
+  private Boolean ended = true;
+  private Boolean started = true;
+
   public PollDto(Poll poll) {
+    if (poll.getStartDate() != null && ZonedDateTime.now().isBefore(poll.getStartDate())) {
+      this.started = false;
+    }
+    if (poll.getEndDate() != null && ZonedDateTime.now().isBefore(poll.getEndDate())) {
+      this.ended = false;
+    }
+
     this.id = poll.getPollId();
     this.title = poll.getTitle();
     this.description = poll.getDescription();
@@ -41,6 +46,7 @@ public class PollDto {
     this.startDate = poll.getStartDate();
     this.endDate = poll.getEndDate();
     this.createdAt = poll.getCreatedAt();
+    this.createdBy = new AppUserDto(poll.getCreatedBy());
     this.options = poll.getOptions().stream().map(opt -> {
       PollOptionDto pollOption = new PollOptionDto();
 

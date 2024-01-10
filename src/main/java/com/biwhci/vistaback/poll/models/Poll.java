@@ -1,5 +1,6 @@
 package com.biwhci.vistaback.poll.models;
 
+import com.biwhci.vistaback.user.models.AppUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,10 @@ public class Poll {
   @CreationTimestamp
   private ZonedDateTime createdAt;
 
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private AppUser createdBy;
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "poll_id")
   private List<PollOption> options = new ArrayList<>();
@@ -48,8 +53,10 @@ public class Poll {
               boolean isAnonymous,
               ZonedDateTime startDate,
               ZonedDateTime endDate,
+              AppUser createdBy,
               List<PollOption> options
   ) {
+    this.createdBy = createdBy;
     this.title = title;
     this.description = description;
     this.multiple = isMultiple;
