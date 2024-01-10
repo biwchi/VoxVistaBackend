@@ -25,6 +25,11 @@ public class PollController {
     return pollService.findPollById(pollId);
   }
 
+  @GetMapping("/user")
+  public List<PollDto> findAllPollsByUser() {
+    return pollService.findAllPollsByUser();
+  }
+
   @PostMapping
   public void createPoll(@Valid @RequestBody PollCreateDto pollCreateDto) {
     pollService.createPoll(pollCreateDto);
